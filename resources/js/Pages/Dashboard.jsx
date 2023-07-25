@@ -1,3 +1,5 @@
+import MenuServis from '@/Components/Dashboard/MenuServis';
+import Rekomendasi from '@/Components/Dashboard/Rekomendasi';
 import SearchBar from '@/Components/Dashboard/SearchBar';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
@@ -10,6 +12,8 @@ export default function Dashboard({ auth }) {
         >
             <Head title="Dashboard" />
             <SearchBar/>
+            <MenuServis/>
+            <Rekomendasi/>
         </AuthenticatedLayout>
     );
 }

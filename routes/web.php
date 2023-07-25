@@ -51,8 +51,11 @@ Route::middleware(['auth', 'verified'])->group(function(){
         return Inertia::render('Garasi');
     })->name('garasi');
     Route::get('/kendaraan', function () {
-        return Inertia::render('FormKendaraan');
+        return Inertia::render('DetailKendaraan');
     })->name('kendaraan.edit');
+    Route::get('/kendaraan', function () {
+        return Inertia::render('DetailKendaraan');
+    })->name('kendaraan.detail');
     Route::get('/akun', [AkunController::class, 'show'])->name('akun');
 });
 
