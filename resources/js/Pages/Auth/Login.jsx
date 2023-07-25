@@ -86,10 +86,13 @@ export default function Login({ status, canResetPassword }) {
                             Forgot your password?
                         </Link>
                     )}
-
-                    <PrimaryButton className="ml-4" disabled={processing}>
+                    <PrimaryButton className="ml-4 bg-warning text-black" disabled={processing}>
                         Log in
                     </PrimaryButton>
+                </div>
+                <div className='flex justify-center items-end'>
+                    <p>Belum memiliki akun? </p>
+                    <Link href={route('register')} className="ml-2 p-0 bg-secodary text-info-content">Register</Link>
                 </div>
             </form>
         </GuestLayout>

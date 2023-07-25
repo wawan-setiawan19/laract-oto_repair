@@ -1,12 +1,14 @@
 import React from 'react'
 import {Head} from '@inertiajs/react'
+import NavBar from '@/Components/NavBar'
+import Hero from '@/Components/Homepage/Hero'
 
 const Homepage = (props) => {
   return (
-    <div className='flex justify-center bg-neutral-500 text-2xl'>
-        <Head title={props.title}/>
-        <h1>Homepage</h1>
-    </div>
+    <>
+    <Head title={props.title}/>
+    <Hero/>
+    </>
   )
 }
 
