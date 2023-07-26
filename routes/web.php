@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkunController;
+use App\Http\Controllers\MobilController;
+use App\Http\Controllers\GarasiController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,7 +41,21 @@ Route::get('/form', function(){
     ]);
 });
 
+// Route Kendaraan
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/kendaraan', function () {
+        return Inertia::render('DetailKendaraan');
+    })->name('kendaraan.edit');
+    Route::get('/kendaraan/add', function () {
+        return Inertia::render('TambahKendaraan');
+    })->name('kendaraan.add');
+    Route::get('/kendaraan', function () {
+        return Inertia::render('DetailKendaraan');
+    })->name('kendaraan.detail');
+    Route::post('kendaraan/add', [MobilController::class, 'store'])->name('tambah-kendaraan');
+});
 
+// Route Menu
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
@@ -47,15 +63,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/order', function () {
         return Inertia::render('Order');
     })->name('order');
-    Route::get('/garasi', function () {
-        return Inertia::render('Garasi');
-    })->name('garasi');
-    Route::get('/kendaraan', function () {
-        return Inertia::render('DetailKendaraan');
-    })->name('kendaraan.edit');
-    Route::get('/kendaraan', function () {
-        return Inertia::render('DetailKendaraan');
-    })->name('kendaraan.detail');
+    // Route::get('/garasi', function () {
+    //     return Inertia::render('Garasi');
+    // })->name('garasi');
+    Route::get('/garasi', [GarasiController::class, 'show'])->name('garasi');
     Route::get('/akun', [AkunController::class, 'show'])->name('akun');
 });
 

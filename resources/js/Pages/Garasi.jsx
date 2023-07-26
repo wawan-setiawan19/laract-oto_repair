@@ -1,8 +1,9 @@
 import { Card } from '@/Components/Kendaraan/Card';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
-export default function Garasi({ auth }) {
+export default function Garasi({ auth, mobils }) {
+    console.log(mobils);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -10,11 +11,13 @@ export default function Garasi({ auth }) {
         >
             <Head title="Dashboard" />
             <div className="flex flex-col h-fit content-between">
-                <Card />
-                <Card />
+                <h2 className="card-title text-3xl w-2/3">Mobilku <div className="badge badge-primary text-white uppercase">utama</div></h2>
+                {mobils.length > 0 && mobils.map(mobil => {
+                    return <Card key={mobil.id} mobil={mobil}/>
+                })}
                 <div className="divider"></div>
                 <div className="card-actions w-full justify-center align-bottom px-5">
-                    <button className="w-full btn btn-primary">Tambah Kendaraan</button>
+                    <Link href={route('kendaraan.add')} className="w-full btn btn-primary">Tambah Kendaraan</Link>
                 </div>
             </div>
         </AuthenticatedLayout>
