@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\URL;
 
 class Mobil extends Model
 {
@@ -17,5 +19,6 @@ class Mobil extends Model
         'bahan_bakar',
         'transmisi',
         'nopol',
+        'picture',
     ];
 }

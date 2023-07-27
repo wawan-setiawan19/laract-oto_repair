@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('bahan_bakar');
             $table->string('transmisi');
             $table->string('nopol');
+            $table->string('picture');
             $table->timestamps();
         });
     }

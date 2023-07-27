@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Mobil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MobilController extends Controller
 {
@@ -28,25 +30,33 @@ class MobilController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'id_pemilik' => 'required|numeric',
-            'merk' => 'required|string|max:255',
-            'tipe' => 'required|string|max:255',
-            'tahun' => 'required|numeric|digits:4',
-            'bahan_bakar' => 'required|string|max:255',
-            'transmisi' => 'required|string|max:255',
-            'nopol' => 'required|string|max:255|unique:'.Mobil::class,
-        ]);
-
-        $mobil = Mobil::create([
-            'id_pemilik' => $request->id_pemilik,
-            'merk' => $request->merk,
-            'tipe' => $request->tipe,
-            'tahun' => $request->tahun,
-            'bahan_bakar' => $request->bahan_bakar,
-            'transmisi' => $request->transmisi,
-            'nopol' => $request->nopol,
-        ]);
+            $request->validate([
+                'id_pemilik' => 'required|numeric',
+                'merk' => 'required|string|max:255',
+                'tipe' => 'required|string|max:255',
+                'tahun' => 'required|numeric|digits:4',
+                'bahan_bakar' => 'required|string|max:255',
+                'transmisi' => 'required|string|max:255',
+                'nopol' => 'required|string|max:255|unique:'.Mobil::class,
+                'picture' => ['nullable', 'image'],
+            ]);
+            if ($request->picture->isValid()) {
+                $file = $request->picture;
+                $fileName = date('Y-m-d').$file->getClientOriginalName();
+                $path = 'mobil/'.$fileName;
+                Storage::disk('public')->put($path,file_get_contents($file));
+                // dd($path);
+                $mobil = Mobil::create([
+                    'id_pemilik' => $request->id_pemilik,
+                    'merk' => $request->merk,
+                    'tipe' => $request->tipe,
+                    'tahun' => $request->tahun,
+                    'bahan_bakar' => $request->bahan_bakar,
+                    'transmisi' => $request->transmisi,
+                    'nopol' => $request->nopol,
+                    'picture' => $fileName,
+                ]);
+            }
 
         return redirect(route('garasi'));
     }

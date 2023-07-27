@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
 
 class GarasiController extends Controller
 {
@@ -14,6 +15,7 @@ class GarasiController extends Controller
         $mobils = DB::table('mobils')->where('id_pemilik', $user->id)->get();
         return Inertia::render('Garasi',[
             'mobils' => $mobils,
+            'assetPath' => asset('storage/mobil/'),
         ]);
     }
 }

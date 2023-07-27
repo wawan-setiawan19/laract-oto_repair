@@ -8,8 +8,9 @@ import PrimaryButton from '../PrimaryButton'
 import SelectInput from '../SelectInput'
 import TextInput from '../TextInput'
 
-const Add = ({ className }) => {
+const Edit = ({ className }) => {
     const user = usePage().props.auth.user
+    const mobil = usePage().props.mobil
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
         id_pemilik: user.id,
         merk: '',

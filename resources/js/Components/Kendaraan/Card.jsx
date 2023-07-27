@@ -1,7 +1,8 @@
 import { Link } from '@inertiajs/react'
 import React from 'react'
 
-export const Card = ({mobil}) => {
+export const Card = ({mobil, assetPath}) => {
+    const src = mobil.picture || 'https://picsum.photos/400'
     return (
         <div className="card w-full">
             <div className="card-body">
@@ -21,7 +22,7 @@ export const Card = ({mobil}) => {
                                 </div>
                                 <div className="avatar">
                                     <div className="w-24 md:w-48 rounded">
-                                        <img src="https://picsum.photos/400" />
+                                        <img src={`${assetPath}/${src}`} />
                                     </div>
                                 </div>
                             </div>
