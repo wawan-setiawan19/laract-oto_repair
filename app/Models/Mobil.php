@@ -21,4 +21,9 @@ class Mobil extends Model
         'nopol',
         'picture',
     ];
+    
+    protected $casts = [
+        'picture',
+    ];
+
 }

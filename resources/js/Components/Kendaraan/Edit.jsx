@@ -8,23 +8,24 @@ import PrimaryButton from '../PrimaryButton'
 import SelectInput from '../SelectInput'
 import TextInput from '../TextInput'
 
-const Edit = ({ className }) => {
-    const user = usePage().props.auth.user
-    const mobil = usePage().props.mobil
+const Edit = ({ className, user, mobil }) => {
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
         id_pemilik: user.id,
-        merk: '',
-        tipe: '',
-        tahun: '',
-        bahan_bakar: 'Bensin',
-        transmisi: 'Automatic',
-        nopol: '',
+        merk: mobil.merk,
+        tipe: mobil.tipe,
+        tahun: mobil.tahun,
+        bahan_bakar: mobil.bahan_bakar,
+        transmisi: mobil.transmisi,
+        nopol: mobil.nopol,
+        picture: '',
+        _method: 'put'
     });
 
     const submit = (e) => {
         e.preventDefault();
-
-        post(route('tambah-kendaraan'));
+        post(route('kendaraan.update', mobil.id),{
+            preserveState: true,
+        });
     };
     return (
         <section className={className}>
@@ -40,6 +41,7 @@ const Edit = ({ className }) => {
                         id="id_pemilik"
                         className="mt-1 block w-full"
                         value={data.id_pemilik}
+                        defaultValue={data.id_pemilik}
                         onChange={(e) => setData('id_pemilik', e.target.value)}
                         required
                         isFocused
@@ -55,6 +57,7 @@ const Edit = ({ className }) => {
                         id="merk"
                         className="mt-1 block w-full"
                         value={data.merk}
+                        defaultValue={data.merk}
                         onChange={(e) => setData('merk', e.target.value)}
                         required
                         isFocused
@@ -69,6 +72,7 @@ const Edit = ({ className }) => {
                         id="tipe"
                         className="mt-1 block w-full"
                         value={data.tipe}
+                        defaultValue={data.tipe}
                         onChange={(e) => setData('tipe', e.target.value)}
                         required
                         isFocused
@@ -83,6 +87,7 @@ const Edit = ({ className }) => {
                         id="tahun"
                         className="mt-1 block w-full"
                         value={data.tahun}
+                        defaultValue={data.tahun}
                         onChange={(e) => setData('tahun', e.target.value)}
                         required
                         isFocused
@@ -98,6 +103,7 @@ const Edit = ({ className }) => {
                         name="bahan_bakar"
                         errors={errors.bahan_bakar}
                         value={data.bahan_bakar}
+                        defaultValue={data.bahan_bakar}
                         onChange={e => setData('bahan_bakar', e.target.value)}>
                         <option value="Bensin">Bensin</option>
                         <option value="Diesel">Diesel</option>
@@ -113,6 +119,7 @@ const Edit = ({ className }) => {
                         name="transmisi"
                         errors={errors.transmisi}
                         value={data.transmisi}
+                        defaultValue={data.transmisi}
                         onChange={e => setData('transmisi', e.target.value)}>
                         <option value="Automatic">Automatic</option>
                         <option value="Manual">Manual</option>
@@ -127,6 +134,7 @@ const Edit = ({ className }) => {
                         id="nopol"
                         className="mt-1 block w-full"
                         value={data.nopol}
+                        defaultValue={data.nopol}
                         onChange={(e) => setData('nopol', e.target.value)}
                         required
                         isFocused
@@ -143,6 +151,7 @@ const Edit = ({ className }) => {
                         accept="image/*"
                         errors={errors.picture}
                         value={data.picture}
+                        defaultValue={data.picture}
                         onChange={picture => setData('picture', picture)}
                     />
 
@@ -167,4 +176,4 @@ const Edit = ({ className }) => {
     )
 }
 
-export default Add
+export default Edit

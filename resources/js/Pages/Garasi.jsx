@@ -3,7 +3,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 
 export default function Garasi({ auth, mobils, assetPath }) {
-    console.log(assetPath);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -16,8 +15,8 @@ export default function Garasi({ auth, mobils, assetPath }) {
                     return <Card key={mobil.id} mobil={mobil} assetPath={assetPath}/>
                 })}
                 <div className="divider"></div>
-                <div className="card-actions w-full justify-center align-bottom px-5">
-                    <Link href={route('kendaraan.add')} className="w-full btn btn-primary">Tambah Kendaraan</Link>
+                <div className="card-actions w-full justify-center align-bottom">
+                    <Link href={route('kendaraan.create')} className="w-full btn btn-primary">Tambah Kendaraan</Link>
                 </div>
             </div>
         </AuthenticatedLayout>

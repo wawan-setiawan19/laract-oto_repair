@@ -9,10 +9,6 @@ const MenuServis = () => {
                     <div className="card bg-warning shadow-xl p-5 font-bold items-center">
                         Point 10.000
                     </div>
-                    <div className="card card-side bg-base-100 shadow-xl w-2/4 p-2">
-                        <figure><img className='h-10 mr-2 rounded' src="https://picsum.photos/400" alt="Movie" /></figure>
-                        <p>Lengkapi data mobil</p>
-                    </div>
                 </div>
                 <div className="flex flex-wrap flex-1 gap-10 justify-start md:justify-between">
                     <Link href={route('order')} className="flex flex-col items-center">

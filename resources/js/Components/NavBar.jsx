@@ -9,7 +9,8 @@ const NavBar = ({ user }) => {
             <div className="container mx-auto">
 
             <div className="navbar-start">
-                <a className="btn btn-ghost normal-case text-2xl text-info-content gap-0"><span className='text-warning'>Oto</span>Repair</a>
+                {/* <img src={{asset('logo.png')}} alt="" /> */}
+                <a className="btn btn-ghost normal-case text-2xl text-info-content gap-0">Bengkel<span className='text-red-800'>Go</span></a>
             </div>
             <div className="navbar-center hidden md:flex">
                 <Menu/>

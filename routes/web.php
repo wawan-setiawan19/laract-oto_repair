@@ -31,28 +31,33 @@ Route::get('/welcome', function () {
 
 Route::get('/', function(){
     return Inertia::render('Homepage',[
-        'title' => 'OtoRepair Home'
+        'title' => 'Home'
     ]);
 });
 
 Route::get('/form', function(){
     return Inertia::render('FormKendaraan',[
-        'title' => 'OtoRepair - Form Kendaraan'
+        'title' => 'Form Kendaraan'
     ]);
 });
 
 // Route Kendaraan
 Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/kendaraan', function () {
-        return Inertia::render('DetailKendaraan');
-    })->name('kendaraan.edit');
+    Route::resource('kendaraan', MobilController::class);
+    // Route::get('/kendaraan', function () {
+    //     return Inertia::render('DetailKendaraan');
+    // })->name('kendaraan.edit');
     Route::get('/kendaraan/add', function () {
         return Inertia::render('TambahKendaraan');
     })->name('kendaraan.add');
-    Route::get('/kendaraan', function () {
-        return Inertia::render('DetailKendaraan');
-    })->name('kendaraan.detail');
+    // Route::get('/kendaraan', function () {
+    //     return Inertia::render('DetailKendaraan',[
+    //         'assetPath' => 
+    //     ]);
+    // })->name('kendaraan.detail');
     Route::post('kendaraan/add', [MobilController::class, 'store'])->name('tambah-kendaraan');
+    Route::delete('kendaraan/{id}', [MobilController::class, 'destroy'])->name('kendaraan.destroy');
+    Route::post('kendaraan/{id}', [MobilController::class, 'update'])->name('kendaraan.update');
 });
 
 // Route Menu

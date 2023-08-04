@@ -1,15 +1,16 @@
-import Add from '@/Components/Kendaraan/Add'
+import Edit from '@/Components/Kendaraan/Edit'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
 import React from 'react'
 
-const TambahKendaraan = ({auth}) => {
+
+const EditKendaraan = ({auth, mobil}) => {
   return (
     <Authenticated user={auth.user}>
         <Head title='Form Tambah Kendaraan'/>
-        <Add className="max-w-xl" user={auth.user}/>
+        <Edit className="max-w-xl" user={auth.user} mobil={mobil}/>
     </Authenticated>
   )
 }
 
-export default TambahKendaraan
+export default EditKendaraan

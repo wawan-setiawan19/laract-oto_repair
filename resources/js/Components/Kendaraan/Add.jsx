@@ -18,12 +18,13 @@ const Add = ({ className }) => {
         bahan_bakar: 'Bensin',
         transmisi: 'Automatic',
         nopol: '',
+        picture: '',
     });
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('tambah-kendaraan'));
+        post(route('kendaraan.store'));
     };
     return (
         <section className={className}>
