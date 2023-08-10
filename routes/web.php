@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\GarasiController;
+use App\Http\Controllers\BengkelController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,20 +47,25 @@ Route::get('/form', function(){
 // Route Kendaraan
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('kendaraan', MobilController::class);
-    // Route::get('/kendaraan', function () {
-    //     return Inertia::render('DetailKendaraan');
-    // })->name('kendaraan.edit');
     Route::get('/kendaraan/add', function () {
         return Inertia::render('TambahKendaraan');
     })->name('kendaraan.add');
-    // Route::get('/kendaraan', function () {
-    //     return Inertia::render('DetailKendaraan',[
-    //         'assetPath' => 
-    //     ]);
-    // })->name('kendaraan.detail');
     Route::post('kendaraan/add', [MobilController::class, 'store'])->name('tambah-kendaraan');
     Route::delete('kendaraan/{id}', [MobilController::class, 'destroy'])->name('kendaraan.destroy');
     Route::post('kendaraan/{id}', [MobilController::class, 'update'])->name('kendaraan.update');
+});
+
+// Admin Route
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+// Bengkel Route
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::resource('layanan', LayananController::class);
+    Route::get('bengkel/dashboard', [BengkelController::class, 'index'])->name('bengkel.dashboard');
+    Route::get('bengkel/layanan', [LayananController::class, 'index'])->name('bengkel.layanan');
+    Route::get('bengkel/export', [BengkelController::class, 'exportPdf'])->name('bengkel.export');
 });
 
 // Route Menu
@@ -68,16 +76,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/order', function () {
         return Inertia::render('Order');
     })->name('order');
-    // Route::get('/garasi', function () {
-    //     return Inertia::render('Garasi');
-    // })->name('garasi');
     Route::get('/garasi', [GarasiController::class, 'show'])->name('garasi');
     Route::get('/akun', [AkunController::class, 'show'])->name('akun');
+    Route::get('/bengkel', [BengkelController::class, 'index'])->name('bengkel');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

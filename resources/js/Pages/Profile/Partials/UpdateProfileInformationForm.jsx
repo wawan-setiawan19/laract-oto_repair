@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
+    const { data, setData, put, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
         jenis_kelamin: user.jenis_kelamin || '',
@@ -50,7 +50,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         }
     };
 
-    const fetchDistricts = async(id) =>{
+    const fetchDistricts = async (id) => {
         try {
             const response = await axios.get(`http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${id}`); // Replace with the actual API endpoint URL
             const data = response.data.kota_kabupaten
@@ -61,7 +61,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         }
     }
 
-    const fetchSubDistricts = async(id) =>{
+    const fetchSubDistricts = async (id) => {
         try {
             const response = await axios.get(`http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${id}`); // Replace with the actual API endpoint URL
             const data = response.data.kecamatan
@@ -75,7 +75,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        put(route('profile.update'));
     };
 
     return (
@@ -160,6 +160,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         errors={errors.provinsi}
                         value={data.provinsi}
                         onChange={e => setData('provinsi', e.target.value)}>
+                        <option value="">Pilih Provinsi</option>
                         {provinces && provinces.map(province => (
                             <option key={province.id} value={province.id}>{province.nama}</option>
                         ))}
@@ -175,6 +176,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         errors={errors.kota}
                         value={data.kota}
                         onChange={e => setData('kota', e.target.value)}>
+                        <option value="">Pilih Kabupaten/Kota</option>
                         {districts && districts.map(district => (
                             <option key={district.id} value={district.id}>{district.nama}</option>
                         ))}
@@ -191,6 +193,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         errors={errors.kecamatan}
                         value={data.kecamatan}
                         onChange={e => setData('kecamatan', e.target.value)}>
+                        <option value="">Pilih Kecamatan</option>
                         {subDistricts && subDistricts.map(subDistrict => (
                             <option key={subDistrict.id} value={subDistrict.id}>{subDistrict.nama}</option>
                         ))}

@@ -2,8 +2,10 @@ import { Link } from '@inertiajs/react'
 import React from 'react'
 import Logout from './Logout'
 import Menu from './Menu'
+import MenuAdmin from './MenuAdmin'
+import MenuBengkel from './MenuBengkel'
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, role }) => {
     return (
         <div className="navbar bg-base-100">
             <div className="container mx-auto">
@@ -13,7 +15,9 @@ const NavBar = ({ user }) => {
                 <a className="btn btn-ghost normal-case text-2xl text-info-content gap-0">Bengkel<span className='text-red-800'>Go</span></a>
             </div>
             <div className="navbar-center hidden md:flex">
-                <Menu/>
+                {role=='user'&&<Menu/>}
+                {role=='admin'&&<MenuAdmin/>}
+                {role=='bengkel'&&<MenuBengkel/>}
             </div>
             {user && <>
             <div className="navbar-end flex flex-row">
