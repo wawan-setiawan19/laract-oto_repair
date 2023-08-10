@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('id_user');
             $table->string('id_bengkel');
-            $table->date('tanngal_transaksi');
+            $table->date('tanggal_transaksi');
             $table->string('kategori');
             $table->string('nama_layanan');
+            $table->string('metode_pembayaran');
+            $table->string('status_pembayaran');
             $table->timestamps();
         });
     }

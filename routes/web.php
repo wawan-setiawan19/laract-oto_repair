@@ -5,7 +5,9 @@ use App\Http\Controllers\AkunController;
 use App\Http\Controllers\MobilController;
 use App\Http\Controllers\GarasiController;
 use App\Http\Controllers\BengkelController;
+use App\Http\Controllers\ServisController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\TranskasiController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 // Admin Route
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin/export', [AdminController::class, 'exportPdf'])->name('admin.export');
 });
 
 // Bengkel Route
@@ -68,14 +71,19 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('bengkel/export', [BengkelController::class, 'exportPdf'])->name('bengkel.export');
 });
 
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::resource('order', ServisController::class);
+    Route::get('order/{id}', [ServisController::class, 'show'])->name('order.show');
+    Route::post('order', [TranskasiController::class, 'store'])->name('order.store');
+    Route::get('transaksi', [TranskasiController::class, 'index'])->name('transaksi');
+});
+
 // Route Menu
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::get('/order', function () {
-        return Inertia::render('Order');
-    })->name('order');
+    Route::get('/order', [ServisController::class, 'index'])->name('order');
     Route::get('/garasi', [GarasiController::class, 'show'])->name('garasi');
     Route::get('/akun', [AkunController::class, 'show'])->name('akun');
     Route::get('/bengkel', [BengkelController::class, 'index'])->name('bengkel');

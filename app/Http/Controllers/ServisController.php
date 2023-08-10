@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Servis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ServisController extends Controller
 {
@@ -12,15 +15,23 @@ class ServisController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $layanans = DB::table('layanans')->get();
+        return Inertia::render('Order',[
+            'layanans' => $layanans,
+            'assetPath' => asset('storage/layanan/'),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $layanans = DB::table('layanans')->where('id', $id)->get();
+        return Inertia::render('Order/RingkasanOrder',[
+            'layanan' => $layanans,
+        ]);
     }
 
     /**
@@ -34,9 +45,13 @@ class ServisController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Servis $servis)
+    public function show($id)
     {
-        //
+        $layanans = DB::table('layanans')->where('id', $id)->get();
+        return Inertia::render('Order/RingkasanOrder',[
+            'layanan' => $layanans,
+            'assetPath' => asset('storage/layanan/'),
+        ]);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Layanan;
+use PDF;
 
 class AdminController extends Controller
 {
@@ -68,5 +69,18 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         //
+    }
+
+    public function exportPdf(){
+        $dataLayanan = Layanan::selectRaw('kategori, COUNT(*) as count')
+        ->groupBy('kategori')
+        ->get();
+        $component = Inertia::render('Admin/VisualisasiData',[
+            'dataLayanan' => $dataLayanan,
+        ]);
+        $html = $component;
+        // dd($html);
+        $pdf = PDF::loadHTML($html);
+        return $pdf->stream();
     }
 }
