@@ -16,7 +16,7 @@ export default function Dashboard({ auth, ...rest }) {
             <Head title="Dashboard" />
             {auth.user.role != 'admin' && <>
                 <SearchBar />
-                <MenuServis />
+                <MenuServis role={auth.user.role}/>
                 <Rekomendasi role={auth.user.role}/>
             </>}
         </AuthenticatedLayout>

@@ -7,8 +7,8 @@ const Rekomendasi = ({role}) => {
     let headerText = 'Mobil Bermasalah?'
     let messageText = 'Segera konsultasikan masalah kendaraan anda pada bengkel terdekat di sekitar Anda!'
     if(role == 'bengkel'){
-        btnText= 'Klik Layanan'
-        ruteBtn= 'bengkel.layanan'
+        btnText= 'Tambah Layanan'
+        ruteBtn= 'layanan.create'
         headerText = 'Belum ada layanan?'
         messageText = 'Segera tambahkan menu layanan terbaru untuk bengkel Anda!'
     }

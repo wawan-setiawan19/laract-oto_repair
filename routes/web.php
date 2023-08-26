@@ -69,6 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('bengkel/dashboard', [BengkelController::class, 'index'])->name('bengkel.dashboard');
     Route::get('bengkel/layanan', [LayananController::class, 'index'])->name('bengkel.layanan');
     Route::get('bengkel/export', [BengkelController::class, 'exportPdf'])->name('bengkel.export');
+    Route::get('bengkel/layanan/{id}', [LayananController::class, 'createByCategory'])->name('layanan.category');
 });
 
 Route::middleware(['auth', 'verified'])->group(function(){

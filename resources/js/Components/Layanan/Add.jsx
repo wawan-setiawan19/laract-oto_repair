@@ -8,12 +8,12 @@ import PrimaryButton from '../PrimaryButton'
 import SelectInput from '../SelectInput'
 import TextInput from '../TextInput'
 
-const Add = ({ className, bengkels }) => {
+const Add = ({ className, bengkels, category }) => {
     const user = usePage().props.auth.user
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
         id_bengkel: user.id,
         nama_layanan: '',
-        kategori: 'Oli',
+        kategori: category.toLowerCase(),
         harga: '',
         thumbnail: '',
     });
@@ -77,11 +77,11 @@ const Add = ({ className, bengkels }) => {
                         errors={errors.kategori}
                         value={data.kategori}
                         onChange={e => setData('kategori', e.target.value)}>
-                        <option value="Oli">Oli</option>
-                        <option value="Rem">Rem</option>
-                        <option value="Berkala">Berkala</option>
-                        <option value="Ban">Ban</option>
-                        <option value="Tune Up">Tune Up</option>
+                        <option value="oli">Oli</option>
+                        <option value="rem">Rem</option>
+                        <option value="berkala">Berkala</option>
+                        <option value="ban">Ban</option>
+                        <option value="tune up">Tune Up</option>
                     </SelectInput>
 
                     <InputError className="mt-2" message={errors.kategori} />

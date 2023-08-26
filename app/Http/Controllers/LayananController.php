@@ -34,7 +34,7 @@ class LayananController extends Controller
     public function create()
     {
         $user = Auth::user();
-        if($user->role == 'admin'){
+        if($user->role == 'bengkel'){
             $bengkels = DB::table('users')->where('role','bengkel')->get();
             return Inertia::render('Bengkel/Tambah',[
                 'bengkels' => $bengkels,
@@ -83,6 +83,19 @@ class LayananController extends Controller
             'layanan' => $layanans,
             'assetPath' => asset('storage/layanan/'),
         ]);
+    }
+
+    public function createByCategory($id)
+    {
+        $user = Auth::user();
+        if($user->role == 'bengkel'){
+            $bengkels = DB::table('users')->where('role','bengkel')->get();
+            return Inertia::render('Bengkel/Tambah',[
+                'bengkels' => $bengkels,
+                'category' => $id,
+            ]);
+        }
+        return Inertia::render('Bengkel/Tambah');
     }
 
     /**
