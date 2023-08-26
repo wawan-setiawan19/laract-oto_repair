@@ -54,6 +54,15 @@ class ServisController extends Controller
         ]);
     }
 
+    public function showCategory($category)
+    {
+        $layanans = DB::table('layanans')->where('kategori', $category)->get();
+        return Inertia::render('Order',[
+            'layanans' => $layanans,
+            'assetPath' => asset('storage/layanan/'),
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

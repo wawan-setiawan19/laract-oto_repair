@@ -5,11 +5,13 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import SelectInput from '@/Components/SelectInput';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
+        role: 'user',
         password: '',
         password_confirmation: '',
     });
@@ -63,6 +65,22 @@ export default function Register() {
                     />
 
                     <InputError message={errors.email} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="role" value="Email" />
+
+                    <SelectInput
+                        className="mt-1 block w-full"
+                        name="role"
+                        errors={errors.role}
+                        value={data.role}
+                        onChange={e => setData('role', e.target.value)}>
+                        <option value="user">Pengguna Biasa</option>
+                        <option value="bengkel">Bengkel</option>
+                    </SelectInput>
+
+                    <InputError message={errors.role} className="mt-2" />
                 </div>
 
                 <div className="mt-4">

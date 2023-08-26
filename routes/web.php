@@ -74,6 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('order', ServisController::class);
     Route::get('order/{id}', [ServisController::class, 'show'])->name('order.show');
+    Route::get('order/category/{id}', [ServisController::class, 'showCategory'])->name('order.category');
     Route::post('order', [TranskasiController::class, 'store'])->name('order.store');
     Route::get('transaksi', [TranskasiController::class, 'index'])->name('transaksi');
 });
