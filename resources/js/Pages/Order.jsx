@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
 export default function Order({ auth, layanans, assetPath }) {
+    console.log(layanans);
     return (
         <AuthenticatedLayout
             user={auth.user}

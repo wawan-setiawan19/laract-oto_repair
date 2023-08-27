@@ -11,19 +11,18 @@ import TextInput from '../TextInput'
 import { Card } from './Card'
 
 const Konfirmasi = ({ className, user, layanan, assetPath }) => {
-    console.log(user);
-    console.log(layanan);
     const date = new Date()
     const month = date.getMonth()+1 < 10 ? `0${date.getMonth()+1}`: date.getMonth()+1
     const currentDate = `${date.getFullYear()}-${month}-${date.getDate()}`
-    console.log(currentDate);
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
         id_bengkel: layanan[0].id_bengkel,
         id_user: user.id,
+        id_layanan: layanan[0].id,
         kategori: layanan[0].kategori,
         nama_layanan: layanan[0].nama_layanan,
         metode_pembayaran: 'Tunai',
-        status_pembayaran: 'on checking',
+        status_pembayaran: 'done',
+        harga: layanan[0].harga,
         tanggal_transaksi: currentDate,
     });
 
@@ -53,6 +52,34 @@ const Konfirmasi = ({ className, user, layanan, assetPath }) => {
                     />
 
                     <InputError className="mt-2" message={errors.id_bengkel} />
+                </div>
+                <div className='hidden'>
+                    <InputLabel htmlFor="id_layanan" value="Id Bengkel" />
+
+                    <TextInput
+                        id="id_layanan"
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('id_layanan', e.target.value)}
+                        required
+                        isFocused
+                        disabled
+                    />
+
+                    <InputError className="mt-2" message={errors.id_layanan} />
+                </div>
+                <div className='hidden'>
+                    <InputLabel htmlFor="harga" value="Harga" />
+
+                    <TextInput
+                        id="harga"
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('harga', e.target.value)}
+                        required
+                        isFocused
+                        disabled
+                    />
+
+                    <InputError className="mt-2" message={errors.harga} />
                 </div>
                 <div className='hidden'>
                     <InputLabel htmlFor="tanggal_transaksi" value="Tanggal Lahir" />
@@ -121,8 +148,9 @@ const Konfirmasi = ({ className, user, layanan, assetPath }) => {
                         name="metode_pembayaran"
                         errors={errors.metode_pembayaran}
                         value={data.metode_pembayaran}
-                        onChange={e => setData('metode_pembayaran', e.target.value)}>
-                        <option value="Credit Card">Credit Card</option>
+                        onChange={(e) => setData('metode_pembayaran', e.target.value)}
+                    >
+                        <option value="Non-Tunai">Non-Tunai</option>
                         <option value="Tunai">Tunai</option>
                     </SelectInput>
 

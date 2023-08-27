@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class TranskasiController extends Controller
 {
@@ -40,16 +42,43 @@ class TranskasiController extends Controller
      */
     public function store(Request $request)
     {
-        $transkasi = Transkasi::create([
-            'id_bengkel' => $request->id_bengkel,
-            'id_user' => $request->id_user,
-            'nama_layanan' => $request->nama_layanan,
-            'kategori' => $request->kategori,
-            'harga' => $request->harga,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            'status_pembayaran' => $request->status_pembayaran,
-            'tanggal_transaksi' => $request->tanggal_transaksi,
-        ]);
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('app.midtrans_env') === 'production';
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        if($request->metode_pembayaran !== 'Tunai'){
+            $params = [
+                'transaction_details' => [
+                    'order_id' => uniqid(),
+                    'gross_amount' => $request->harga,
+                ],
+            ];
+            $snapToken = Snap::getSnapToken($params);
+            $transkasi = Transkasi::create([
+                'id_bengkel' => $request->id_bengkel,
+                'id_user' => $request->id_user,
+                'nama_layanan' => $request->nama_layanan,
+                'kategori' => $request->kategori,
+                'harga' => $request->harga,
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'status_pembayaran' => 'unpaid',
+                'tanggal_transaksi' => $request->tanggal_transaksi,
+                'snap_token' => $snapToken,
+            ]);
+        }else{
+            $transkasi = Transkasi::create([
+                'id_bengkel' => $request->id_bengkel,
+                'id_user' => $request->id_user,
+                'nama_layanan' => $request->nama_layanan,
+                'kategori' => $request->kategori,
+                'harga' => $request->harga,
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'status_pembayaran' => 'done',
+                'snap_token' => 'tunai',
+                'tanggal_transaksi' => $request->tanggal_transaksi,
+            ]);
+        }
         return redirect(route('transaksi'));
     }
 
@@ -72,9 +101,15 @@ class TranskasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Transkasi $transkasi)
+    public function update(Request $request, $id)
     {
-        //
+        $transkasi = Transaksi::find($id);
+        $transkasi->update([
+            'status_pembayaran' => $request->status_pembayaran,
+        ]);
+        dd($request->status_pembayaran);
+        $transkasi->save();
+        return redirect(route('transaksi'));
     }
 
     /**

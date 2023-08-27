@@ -12,6 +12,10 @@ const BottomNavigation = () => {
                 <svg className='h-7 w-7' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="5" y="4" width="14" height="17" rx="2" stroke="#222222" /><path d="M9 9H15" stroke="#222222" strokeLinecap="round" /><path d="M9 13H15" stroke="currentColor" strokeLinecap="round" /><path d="M9 17H13" stroke="#222222" strokeLinecap="round" /></svg>
                 <span className="btm-nav-label">Order</span>
             </Link>
+            <Link href={route('transaksi')}>
+                <svg className='h-7 w-7' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="5" y="4" width="14" height="17" rx="2" stroke="#222222" /><path d="M9 9H15" stroke="#222222" strokeLinecap="round" /><path d="M9 13H15" stroke="currentColor" strokeLinecap="round" /><path d="M9 17H13" stroke="#222222" strokeLinecap="round" /></svg>
+                <span className="btm-nav-label">Transaksi</span>
+            </Link>
             <Link href={route('garasi')}>
             <svg className='w-7 h-7' viewBox="0 0 48 48" id="a" xmlns="http://www.w3.org/2000/svg" fill='none' stroke='currentColor'><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.4,36.1457s-.1939,1.511,0,2.2286c.1347,.4981,.264,1.3371,.78,1.3371h2.8971c.516,0,.6453-.8391,.78-1.3371,.1939-.7172,0-2.2286,0-2.2286"/><rect  x="4.5" y="21.66" width="39" height="14.4857" rx="4.4571" ry="4.4571"/><path  d="M35.1429,36.1457s-.1939,1.511,0,2.2286c.1347,.4981,.264,1.3371,.78,1.3371h2.8971c.516,0,.6453-.8391,.78-1.3371,.1939-.7172,0-2.2286,0-2.2286"/><circle  cx="10.6286" cy="29.46" r="2.2286"/><path  d="M8.9571,21.66l2.5629-10.0286c.438-1.7138,2.3534-3.3429,4.1229-3.3429h16.7143c1.7695,0,3.6849,1.6291,4.1229,3.3429l2.5629,10.0286"/><circle  cx="37.3714" cy="29.46" r="2.2286"/></svg>
                 <span className="btm-nav-label">Garasi</span>

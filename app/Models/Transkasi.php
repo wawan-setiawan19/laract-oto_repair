@@ -17,5 +17,6 @@ class Transkasi extends Model
             'metode_pembayaran',
             'status_pembayaran',
             'tanggal_transaksi',
+            'snap_token',
     ];
 }

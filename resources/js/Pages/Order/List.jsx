@@ -1,10 +1,50 @@
-import Konfirmasi from '@/Components/Order/Konfirmasi'
 import Authenticated from '@/Layouts/AuthenticatedLayout'
-import { Head } from '@inertiajs/react'
+import { Head, router, useForm } from '@inertiajs/react'
 import React from 'react'
 
 const List = ({ auth, transaksis }) => {
-    console.log(transaksis);
+    const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
+        id: 1,
+        status_pembayaran: '',
+        _method: 'put'
+    });
+
+    const handleSuccess = (e, id) => {
+        e.preventDefault();
+        alert('pembayaran sukses');
+        router.visit(route('transaksi.update', id), {
+            method: 'put',
+            data: {
+              status_pembayaran: 'done'
+            },
+          })
+        // post(route('transaksi.update', id), {
+        //     preserveState: true,
+        // });
+    }
+    const handlePayment = (e, snapToken, id) => {
+        console.log(snapToken);
+        window.snap.pay(snapToken, {
+            onSuccess: function (result) {
+                /* You may add your own implementation here */
+                setData('id', id)
+                setData('status_pemabayaran', 'done')
+                handleSuccess(e, id);
+            },
+            onPending: function (result) {
+                /* You may add your own implementation here */
+                alert("wating your payment!"); console.log(result);
+            },
+            onError: function (result) {
+                /* You may add your own implementation here */
+                alert("payment failed!"); console.log(result);
+            },
+            onClose: function () {
+                /* You may add your own implementation here */
+                alert('you closed the popup without finishing the payment');
+            }
+        });
+    }
     return (
         <Authenticated user={auth.user}>
             <Head title='Transaksi Saya' />
@@ -18,19 +58,23 @@ const List = ({ auth, transaksis }) => {
                             <th>Kategori</th>
                             <th>Tanggal Transaksi</th>
                             <th>Metode Pembayaran</th>
-                            <th>Status Pembayaran</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         {transaksis && transaksis.map((transaksi, index) => {
                             return (
-                                <tr>
+                                <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{transaksi.nama_layanan}</td>
                                     <td>{transaksi.kategori}</td>
                                     <td>{transaksi.tanggal_transaksi}</td>
                                     <td>{transaksi.metode_pembayaran}</td>
-                                    <td className={transaksi.status_pembayaran !== 'success'?'badge-warning':'badge-success'}>{transaksi.status_pembayaran}</td>
+                                    <td>
+                                        {transaksi.status_pembayaran !== 'done' &&
+                                            <button className="btn btn-primary" onClick={e => handlePayment(e, transaksi.snap_token, transaksi.id)}>Bayar Sekarang</button>
+                                        }
+                                    </td>
                                 </tr>
                             )
                         })}

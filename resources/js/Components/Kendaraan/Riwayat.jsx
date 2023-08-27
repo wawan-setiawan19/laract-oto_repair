@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Riwayat = () => {
+export const Riwayat = ({transaksi}) => {
     return (
 
         <div>
@@ -9,7 +9,7 @@ export const Riwayat = () => {
                 <table className='table'>
                     <tr>
                         <td>Tipe Servis</td>
-                        <td>Service Berkala</td>
+                        <td>{transaksi.kategori}</td>
                     </tr>
                     <tr>
                         <td>Jenis Kerusakan</td>

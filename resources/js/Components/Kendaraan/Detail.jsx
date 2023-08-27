@@ -45,11 +45,11 @@ export const Detail = ({assetPath, mobil}) => {
                                         </tr>
                                     </table>
                                 </div>
-                                <div>
+                                {/* <div>
                                     <div className='text-xl uppercase font-bold'>Riwayat Servis</div>
                                     <Riwayat/>
                                     <Riwayat/>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>

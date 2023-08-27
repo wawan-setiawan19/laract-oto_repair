@@ -16,7 +16,7 @@ class ServisController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $layanans = DB::table('layanans')->get();
+        $layanans = DB::table('layanans')->join('users', 'layanans.id_bengkel', '=', 'users.id')->select('layanans.*', 'users.name')->get();
         return Inertia::render('Order',[
             'layanans' => $layanans,
             'assetPath' => asset('storage/layanan/'),
@@ -47,7 +47,7 @@ class ServisController extends Controller
      */
     public function show($id)
     {
-        $layanans = DB::table('layanans')->where('id', $id)->get();
+        $layanans = DB::table('layanans')->join('users', 'layanans.id_bengkel', '=', 'users.id')->where('layanans.id', $id)->get();
         return Inertia::render('Order/RingkasanOrder',[
             'layanan' => $layanans,
             'assetPath' => asset('storage/layanan/'),
@@ -56,7 +56,7 @@ class ServisController extends Controller
 
     public function showCategory($category)
     {
-        $layanans = DB::table('layanans')->where('kategori', $category)->get();
+        $layanans = DB::table('layanans')->join('users', 'layanans.id_bengkel', '=', 'users.id')->where('kategori', $category)->select('layanans.*', 'users.name')->get();
         return Inertia::render('Order',[
             'layanans' => $layanans,
             'assetPath' => asset('storage/layanan/'),

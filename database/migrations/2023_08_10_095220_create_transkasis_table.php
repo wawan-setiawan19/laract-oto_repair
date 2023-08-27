@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nama_layanan');
             $table->string('metode_pembayaran');
             $table->string('status_pembayaran');
+            $table->string('snap_token');
             $table->timestamps();
         });
     }

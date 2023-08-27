@@ -19,6 +19,7 @@ export const Card = ({ layanan, assetPath, konfirmasi }) => {
                                         <div className='text-xl uppercase font-bold'>{layanan.nama_layanan}</div>
                                         <div className='text-md text-slate-400 uppercase font-bold'>{layanan.kategori}</div>
                                         <div className='text-md text-slate-400 font-bold'>Rp. {layanan.harga}</div>
+                                        <div className='text-sm text-slate-400 font-bold'>{layanan.name}</div>
                                     </div>
                                     <div className="avatar">
                                         <div className="w-24 md:w-48 rounded">
