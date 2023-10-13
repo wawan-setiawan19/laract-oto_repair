@@ -21,7 +21,8 @@ class TranskasiController extends Controller
         if($user->role == 'admin'){
             $layanans = DB::table('transkasis')->get();
         }else{
-            $transkasis = DB::table('transkasis')->where('id_user', $user->id)->get();
+            $transkasis = DB::table('transkasis')->join('users', 'transkasis.id_user', '=', 'users.id')
+            ->where('id_user', $user->id)->orWhere('id_bengkel', $user->id)->get();
         }
         return Inertia::render('Order/List',[
             'transaksis' => $transkasis,
@@ -47,10 +48,11 @@ class TranskasiController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
+        $id_transaksi = uniqid();
         if($request->metode_pembayaran !== 'Tunai'){
             $params = [
                 'transaction_details' => [
-                    'order_id' => uniqid(),
+                    'order_id' => $id_transaksi,
                     'gross_amount' => $request->harga,
                 ],
             ];
@@ -58,6 +60,7 @@ class TranskasiController extends Controller
             $transkasi = Transkasi::create([
                 'id_bengkel' => $request->id_bengkel,
                 'id_user' => $request->id_user,
+                'id_order' => $id_transaksi,
                 'nama_layanan' => $request->nama_layanan,
                 'kategori' => $request->kategori,
                 'harga' => $request->harga,
@@ -70,11 +73,12 @@ class TranskasiController extends Controller
             $transkasi = Transkasi::create([
                 'id_bengkel' => $request->id_bengkel,
                 'id_user' => $request->id_user,
+                'id_order' => $id_transaksi,
                 'nama_layanan' => $request->nama_layanan,
                 'kategori' => $request->kategori,
                 'harga' => $request->harga,
                 'metode_pembayaran' => $request->metode_pembayaran,
-                'status_pembayaran' => 'done',
+                'status_pembayaran' => 'waiting',
                 'snap_token' => 'tunai',
                 'tanggal_transaksi' => $request->tanggal_transaksi,
             ]);
@@ -103,12 +107,17 @@ class TranskasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transkasi = Transaksi::find($id);
+        $transkasi = Transkasi::find($id);
         $transkasi->update([
             'status_pembayaran' => $request->status_pembayaran,
         ]);
-        dd($request->status_pembayaran);
         $transkasi->save();
+        return redirect(route('transaksi'));
+    }
+
+    public function konfirmasi($id)
+    {
+        $transkasi = Transkasi::where('id_order', $id)->update(['status_pembayaran' => 'confirm']);
         return redirect(route('transaksi'));
     }
 
@@ -118,5 +127,42 @@ class TranskasiController extends Controller
     public function destroy(Transkasi $transkasi)
     {
         //
+    }
+
+    public function callback(Request $request)
+    {
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('app.midtrans_env') === 'production';
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.Config::$serverKey);
+
+        if($hashed == $request->signature_key){
+            if($request->transaction_status == 'capture' || $request->transaction_status == 'settlement'){
+                $transkasi = Transkasi::where('id_order', $request->order_id);
+                $transkasi->update([
+                    'status_pembayaran' => 'paid',
+                ]);
+                return redirect(route('transaksi'));
+            }
+        }
+    }
+    public function finish(Request $request)
+    {
+        Config::$serverKey = config('services.midtrans.server_key');
+        Config::$isProduction = config('app.midtrans_env') === 'production';
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+        $hashed = hash("sha512", $request->order_id.$request->status_code.$request->gross_amount.Config::$serverKey);
+
+        if($hashed == $request->signature_key){
+            if($request->transaction_status == 'capture' || $request->transaction_status == 'settlement'){
+                $transkasi = Transaksi::find($request->order_id);
+                $transkasi->update([
+                    'status_pembayaran' => 'paid',
+                ]);
+                return redirect(route('transaksi'));
+            }
+        }
     }
 }

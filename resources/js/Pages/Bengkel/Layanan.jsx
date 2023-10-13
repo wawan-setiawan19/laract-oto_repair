@@ -1,3 +1,4 @@
+import Category from '@/Components/Category';
 import { Card } from '@/Components/Layanan/Card';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';

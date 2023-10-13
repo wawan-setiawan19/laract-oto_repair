@@ -65,6 +65,7 @@ class LayananController extends Controller
                 'nama_layanan' => $request->nama_layanan,
                 'kategori' => $request->kategori,
                 'harga' => $request->harga,
+                'description' => $request->description,
                 'thumbnail' => $fileName,
             ]);
         }
@@ -105,7 +106,8 @@ class LayananController extends Controller
     {
         $layanan = Layanan::find($id);
         return Inertia::render('Bengkel/EditLayanan',[
-            'layanan' => $layanan
+            'layanan' => $layanan,
+            'assetPath' => asset('storage/layanan/'),
         ]);
     }
 
@@ -133,6 +135,7 @@ class LayananController extends Controller
                 'nama_layanan' => $request->nama_layanan,
                 'kategori' => $request->kategori,
                 'harga' => $request->harga,
+                'description' => $request->description,
                 'thumbnail' => $fileName,
             ]);
         }else{
@@ -141,6 +144,7 @@ class LayananController extends Controller
                 'nama_layanan' => $request->nama_layanan,
                 'kategori' => $request->kategori,
                 'harga' => $request->harga,
+                'description' => $request->description,
             ]);
         }
         $layanan->save();

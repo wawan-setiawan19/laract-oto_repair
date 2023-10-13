@@ -22,7 +22,7 @@ export const Card = ({ layanan, assetPath }) => {
 
     return (
         <>
-            <div className="card w-full md:w-1/2 md:w-1/3">
+            <div className="card w-full md:w-1/2 lg:w-1/3">
                 <div className="card-body">
                     <div className="card-detail">
                         <div className="card bg-base-100 shadow-xl">

@@ -15,13 +15,20 @@ const List = ({ auth, transaksis }) => {
         router.visit(route('transaksi.update', id), {
             method: 'put',
             data: {
-              status_pembayaran: 'done'
+                status_pembayaran: 'done'
             },
-          })
+        })
         // post(route('transaksi.update', id), {
         //     preserveState: true,
         // });
     }
+    const handleConfirm = (e, id) => {
+        e.preventDefault();
+        router.visit(route('transaksi.konfirmasi', id), {
+            method: 'put',
+        })
+    }
+
     const handlePayment = (e, snapToken, id) => {
         console.log(snapToken);
         window.snap.pay(snapToken, {
@@ -54,11 +61,22 @@ const List = ({ auth, transaksis }) => {
                     <thead>
                         <tr>
                             <th></th>
+                            {auth.user.role !== 'user' && <th>Costumer</th>}
                             <th>Nama Layanan</th>
                             <th>Kategori</th>
                             <th>Tanggal Transaksi</th>
-                            <th>Metode Pembayaran</th>
-                            <th>Aksi</th>
+                            {auth.user.role == 'user' &&
+                                <>
+                                    <th>Metode Pembayaran</th>
+                                    <th>Aksi</th>
+                                </>
+                            }
+                            {auth.user.role == 'bengkel' &&
+                                <>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -66,15 +84,32 @@ const List = ({ auth, transaksis }) => {
                             return (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
+                                    {auth.user.role !== 'user' && <th>{transaksi.name}</th>}
                                     <td>{transaksi.nama_layanan}</td>
                                     <td>{transaksi.kategori}</td>
                                     <td>{transaksi.tanggal_transaksi}</td>
-                                    <td>{transaksi.metode_pembayaran}</td>
+                                    {auth.user.role == 'user' && <td>{transaksi.metode_pembayaran}</td>}
                                     <td>
-                                        {transaksi.status_pembayaran !== 'done' &&
+                                        {transaksi.status_pembayaran !== 'paid' && transaksi.metode_pembayaran == 'Non-Tunai' &&
                                             <button className="btn btn-primary" onClick={e => handlePayment(e, transaksi.snap_token, transaksi.id)}>Bayar Sekarang</button>
                                         }
+                                        {transaksi.status_pembayaran == 'paid' &&
+                                            <div className="badge badge-success gap-2">
+                                                TERBAYAR
+                                            </div>
+                                        }
+                                        {transaksi.status_pembayaran == 'waiting' &&
+                                            <div className="badge badge-warning gap-2">
+                                                MENUNGGU
+                                            </div>
+                                        }
                                     </td>
+                                    {auth.user.role == 'bengkel' && transaksi.status_pembayaran == 'waiting' &&
+                                        <button className="btn btn-primary" onClick={e => handleConfirm(e, transaksi.id_order)}>Konfirmasi</button>
+                                    }
+                                    {auth.user.role == 'user' &&
+                                        <td>{transaksi.status_pembayaran}</td>
+                                    }
                                 </tr>
                             )
                         })}

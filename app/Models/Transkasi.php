@@ -12,6 +12,7 @@ class Transkasi extends Model
     protected $fillable =[
         'id_bengkel',
             'id_user',
+            'id_order',
             'nama_layanan',
             'kategori',
             'metode_pembayaran',

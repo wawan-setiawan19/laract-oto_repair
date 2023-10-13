@@ -1,9 +1,9 @@
+import Category from '@/Components/Category';
 import { Card } from '@/Components/Order/Card';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
 export default function Order({ auth, layanans, assetPath }) {
-    console.log(layanans);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -16,6 +16,7 @@ export default function Order({ auth, layanans, assetPath }) {
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="flex flex-col h-fit content-between">
                 <h2 className="card-title text-3xl w-2/3">Layanan</h2>
+                <Category/>
                 <div className="flex flex-wrap">
                     {layanans.length > 0 ? layanans.map(layanan => {
                         return <Card key={layanan.id} layanan={layanan} assetPath={assetPath} konfirmasi={false}/>

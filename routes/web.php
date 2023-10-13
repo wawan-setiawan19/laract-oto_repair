@@ -78,6 +78,8 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('order/category/{id}', [ServisController::class, 'showCategory'])->name('order.category');
     Route::post('order', [TranskasiController::class, 'store'])->name('order.store');
     Route::get('transaksi', [TranskasiController::class, 'index'])->name('transaksi');
+    Route::post('transaksi/{id}', [TranskasiController::class, 'update'])->name('transaksi.update');
+    Route::put('transaksi/{id}', [TranskasiController::class, 'konfirmasi'])->name('transaksi.konfirmasi');
 });
 
 // Route Menu
@@ -88,6 +90,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/order', [ServisController::class, 'index'])->name('order');
     Route::get('/garasi', [GarasiController::class, 'show'])->name('garasi');
     Route::get('/akun', [AkunController::class, 'show'])->name('akun');
+    Route::get('/about', [AkunController::class, 'about'])->name('about');
     Route::get('/bengkel', [BengkelController::class, 'index'])->name('bengkel');
 });
 

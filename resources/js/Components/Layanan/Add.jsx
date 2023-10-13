@@ -6,9 +6,10 @@ import InputError from '../InputError'
 import InputLabel from '../InputLabel'
 import PrimaryButton from '../PrimaryButton'
 import SelectInput from '../SelectInput'
+import TextAreaInput from '../TextAreaInput'
 import TextInput from '../TextInput'
 
-const Add = ({ className, bengkels, category }) => {
+const Add = ({ className, bengkels, category='oli' }) => {
     const user = usePage().props.auth.user
     const { data, setData, errors, post, processing, recentlySuccessful } = useForm({
         id_bengkel: user.id,
@@ -99,6 +100,20 @@ const Add = ({ className, bengkels, category }) => {
                     />
 
                     <InputError className="mt-2" message={errors.harga} />
+                </div>
+                <div>
+                    <InputLabel htmlFor="description" value="Deskripsi" />
+
+                    <TextAreaInput
+                        id="description"
+                        className="mt-1 block w-full"
+                        value={data.description}
+                        onChange={(e) => setData('description', e.target.value)}
+                        required
+                        isFocused
+                    />
+
+                    <InputError className="mt-2" message={errors.description} />
                 </div>
                 <div>
                     <InputLabel htmlFor="thumbnail" value="Thumbnail" />

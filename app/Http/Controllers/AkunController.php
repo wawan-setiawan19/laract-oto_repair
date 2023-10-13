@@ -57,6 +57,11 @@ class AkunController extends Controller
             'percentage' => $profileCompletionPercentage,
         ]);
     }
+    
+    public function about()
+    {
+        return Inertia::render('About');
+    }
 
     /**
      * Show the form for editing the specified resource.
